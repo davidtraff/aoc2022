@@ -51,4 +51,4 @@ fn part_two(data: &str) -> u32 {
     sum
 }
 
-AOC!(1);
+AOC!(3);
