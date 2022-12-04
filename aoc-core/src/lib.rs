@@ -14,21 +14,23 @@ macro_rules! AOC {
             const data: &'static str = include_str!("../input");
             info!("Running solution for Advent of Code 2022 day {}", $day);
 
-            let now = SystemTime::now();
             info!("Running part 1...");
+            let now = SystemTime::now();
             let result = part_one(data);
+            let duration = now.elapsed().unwrap();
             info!(
                 "Part 1 completed in {} with result: \"{:?}\"",
-                format_duration(now.elapsed().unwrap()),
+                format_duration(duration),
                 result
             );
 
-            let now = SystemTime::now();
             info!("Running part two...");
+            let now = SystemTime::now();
             let result = part_two(data);
+            let duration = now.elapsed().unwrap();
             info!(
                 "Part 2 completed in {} with result: \"{:?}\"",
-                format_duration(now.elapsed().unwrap()),
+                format_duration(duration),
                 result
             );
 
