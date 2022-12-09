@@ -1,5 +1,3 @@
-use std::collections::HashSet;
-
 use aoc_core::*;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
@@ -142,4 +140,4 @@ fn part_two(data: &str) -> i32 {
     max_score
 }
 
-AOC!(1);
+AOC!(8);
