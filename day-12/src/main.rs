@@ -1,35 +1,15 @@
 use std::collections::{BinaryHeap, HashMap, HashSet};
+use std::cmp::Reverse;
 use rayon::prelude::*;
 
 use aoc_core::*;
 
 type Coord = (usize, usize);
 
-#[derive(Eq)]
+#[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 struct Node {
-    point: Coord,
     distance: usize,
-}
-
-impl PartialEq for Node {
-    fn eq(&self, other: &Self) -> bool {
-        self.distance == other.distance
-    }
-}
-
-impl PartialOrd for Node {
-    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        Some(self.cmp(other))
-    }
-}
-
-impl Ord for Node {
-    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        other
-            .distance
-            .cmp(&self.distance)
-            .then_with(|| self.point.cmp(&other.point))
-    }
+    point: Coord,
 }
 
 fn parse_grid(data: &str) -> (Coord, Coord, Vec<Vec<u8>>) {
@@ -76,12 +56,12 @@ fn solve(start: Coord, end: Coord, grid: &Vec<Vec<u8>>) -> usize {
     }
 
     distances.insert(start, 0);
-    queue.push(Node {
+    queue.push(Reverse(Node {
         point: start,
         distance: 0,
-    });
+    }));
 
-    while let Some(node) = queue.pop() {
+    while let Some(Reverse(node)) = queue.pop() {
         let point = node.point;
         if !visited.insert(point) {
             continue;
@@ -112,10 +92,10 @@ fn solve(start: Coord, end: Coord, grid: &Vec<Vec<u8>>) -> usize {
 
                 if *distances.get(&(x, y)).unwrap_or(&usize::MAX) > new_distance {
                     distances.insert((x, y), new_distance);
-                    queue.push(Node {
+                    queue.push(Reverse(Node {
                         point: (x, y),
                         distance: new_distance,
-                    });
+                    }));
                 }
             }
         }
